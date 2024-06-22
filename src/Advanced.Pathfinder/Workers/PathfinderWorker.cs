@@ -1,0 +1,58 @@
+
+using Advanced.Pathfinder.Core;
+using Advanced.Pathfinder.Core.Messages;
+using Advanced.Pathfinder.Core.Services;
+using Advanced.Pathfinder.Core.States;
+using Akka.Actor;
+using Akka.Persistence;
+
+namespace Advanced.Pathfinder.Workers;
+
+public record Timeout(Guid RequestId, Guid PathfinderId) : IPathfinderId;
+public record TimeoutPathFound(Guid RequestId, Guid PathfinderId, Guid PathId) : IPathfinderId;
+public record TimeoutPathFailed(Guid RequestId, Guid PathfinderId, Exception? Exception = default) : IPathfinderId;
+
+public partial class PathfinderWorker : ReceivePersistentActor
+{
+    public override string PersistenceId => $"PathfinderWorker_{EntityId}";
+    public string EntityId;
+
+    private readonly IPathReader _pathReader;
+    private readonly IActorRef _mapManagerClient = ActorRefs.Nobody;
+    private readonly IActorRef _senderManagerClient = ActorRefs.Nobody;
+    private readonly Serilog.ILogger _logger = Serilog.Log.Logger.ForContext<PathfinderWorker>();
+    private PathfinderWorkerState _state = null!;
+
+    public PathfinderWorker(string entityId, IServiceScopeFactory serviceScopeFactory)
+    {
+        EntityId = entityId;
+        using var scope = serviceScopeFactory.CreateScope();
+        var provider = scope.ServiceProvider;
+        _pathReader = provider.GetRequiredService<IPathReader>();
+
+        var registry = Context.System.GetRegistry();
+        _mapManagerClient = registry.Get<MapManagerProxy>();
+        _senderManagerClient = registry.Get<SenderManagerProxy>();
+
+        Recover<SnapshotOffer>(RecoverSnapshotOffer);
+        CommandAny(msg => Stash.Stash());
+    }
+
+    protected override void OnReplaySuccess()
+    {
+        _logger.Information("[{PathfinderId}][RECOVER] SUCCESS", EntityId);
+        Become(Ready);
+    }
+
+    protected override void PreRestart(Exception reason, object message)
+        => _logger.Error("[{PathfinderId}] PreRestart(): [{RestartReason}] on [{MessageType}][{MessageData}]",
+            EntityId, reason.Message, message.GetType().Name, message);
+
+    protected override void OnPersistFailure(Exception cause, object @event, long sequenceNr)
+        => _logger.Error("[{PathfinderId}] OnPersistFailure(): [{ExceptionMessage}] on [{MessageType}][{MessageData}][{SeqNr}]",
+            EntityId, cause.Message, @event.GetType().Name, @event, sequenceNr);
+
+    protected override void OnPersistRejected(Exception cause, object @event, long sequenceNr)
+        => _logger.Error("[{PathfinderId}] OnPersistRejected(): [{ExceptionMessage}] on [{MessageType}][{MessageData}][{SeqNr}]",
+            EntityId, cause.Message, @event.GetType().Name, @event, sequenceNr);
+}
