@@ -1,9 +1,13 @@
 ﻿namespace Advanced.Pathfinder.Core;
 
-public record PointWorkerProxy;
 
-public record PathfinderProxy;
+public record EdgeCostManagerProxy;
+public record NodeCostManagerProxy;
+public record CostManagerProxy;
+public record EdgeWorkerProxy;
+public record NodeWorkerProxy;
+public record RequestWorkerProxy;
 
-public record MapManagerProxy;
-
-public record SenderManagerProxy;
+public static class AkkaRole{
+    public const string Role = "Pathfinder";
+}

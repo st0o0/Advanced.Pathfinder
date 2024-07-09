@@ -1,6 +1,4 @@
-using Advanced.Pathfinder.Core.Configs;
-
-namespace Advanced.Pathfinder.Core.Messages;
+﻿namespace Advanced.Pathfinder.Core;
 
 public interface ICommit
 {
@@ -8,18 +6,16 @@ public interface ICommit
     uint AdditionalCost { get; }
 }
 
-public class DirectionCommit(uint additionalCost, Direction direction, ChangeMethod change) : ICommit
+public class EdgeCommit(uint additionalCost, ChangeMethod change) : ICommit
 {
     private readonly ChangeMethod _changeMethod = change;
-
-    public Direction Direction { get; init; } = direction;
 
     public uint AdditionalCost { get; init; } = additionalCost;
 
     ChangeMethod ICommit.ChangeMethod => _changeMethod;
 }
 
-public class PointCommit(uint additionalCost, ChangeMethod change) : ICommit
+public class NodeCommit(uint additionalCost, ChangeMethod change) : ICommit
 {
     private readonly ChangeMethod _changeMethod = change;
 

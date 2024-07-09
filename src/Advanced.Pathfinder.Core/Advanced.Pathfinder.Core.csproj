@@ -14,7 +14,11 @@
     <PackageReference Include="Akka.Cluster" Version="1.5.*" />
     <PackageReference Include="Akka.Persistence.Sql.Hosting" Version="1.5.*" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.*" />
-    <PackageReference Include="MongoDB.Driver" Version="2.23.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.26.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\stuff.graph.net\src\stuff.graph.net\stuff.graph.net.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ public static class IMongoQueryableExtensions
         interval ??= TimeSpan.FromMicroseconds(5);
 
         await Task.Delay(initialDelay.Value);
-        var results = await values.ToListAsync();
+        var results = values.ToList();
         foreach (var item in results)
         {
             await Task.Delay(interval.Value);

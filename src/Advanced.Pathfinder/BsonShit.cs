@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace Akka.Pathfinder;
+namespace Advanced.Pathfinder;
 public static class BsonShit
 {
     public static void Register()
@@ -16,9 +16,9 @@ public static class BsonShit
 
         ConventionRegistry.Register(
             "IgnoreExtraElements",
-             new ConventionPack { new IgnoreExtraElementsConvention(true) }, 
+             new ConventionPack { new IgnoreExtraElementsConvention(true) },
              _ => true);
-            
+
         BsonSerializer.RegisterSerializer(new UInt32Serializer(BsonType.Int64, new RepresentationConverter(false, true)));
         BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));

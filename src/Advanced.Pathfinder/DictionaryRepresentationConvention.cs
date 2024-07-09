@@ -2,7 +2,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Options;
 
-namespace Akka.Pathfinder;
+namespace Advanced.Pathfinder;
 
 public class DictionaryRepresentationConvention : ConventionBase, IMemberMapConvention
 {

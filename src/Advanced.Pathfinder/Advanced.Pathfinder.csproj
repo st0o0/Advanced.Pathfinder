@@ -22,13 +22,14 @@
     <PackageReference Include="Akka.Logger.Extensions.Logging" Version="1.4.22" />
     <PackageReference Include="Akka.Logger.Serilog" Version="1.5.*" />
     <PackageReference Include="Akka.Persistence.Hosting" Version="1.5.*" />
-    <PackageReference Include="Akka.Persistence.Sql.Hosting" Version="1.5.*" />
+    <PackageReference Include="Akka.Persistence.MongoDb.Hosting" Version="1.5.*" />
     <PackageReference Include="Serilog.AspNetCore" Version="*" />
-    <PackageReference Include="Npgsql" Version="7.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Advanced.Pathfinder.Core\Advanced.Pathfinder.Core.csproj" />
+    <ProjectReference Include="..\Advanced.Pathfinder.Node\Advanced.Pathfinder.Node.csproj" />
+    <ProjectReference Include="..\Advanced.Pathfinder.Edge\Advanced.Pathfinder.Edge.csproj" />
+    <ProjectReference Include="..\Advanced.Pathfinder.CostManagement\Advanced.Pathfinder.CostManagement.csproj" />
   </ItemGroup>
-
 </Project>

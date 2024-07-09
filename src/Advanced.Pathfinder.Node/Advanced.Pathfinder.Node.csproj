@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\stuff.graph.net\src\stuff.graph.net\stuff.graph.net.csproj" />
     <ProjectReference Include="..\Advanced.Pathfinder.Core\Advanced.Pathfinder.Core.csproj" />
   </ItemGroup>
 
