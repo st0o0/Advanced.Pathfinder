@@ -2,6 +2,6 @@
 
 public class CostManagerState
 {
-    public static EdgeState FromSnapshot(object value) => new();
-    public static EdgeState FromConfig(object value) => new();
+    public static CostManagerState FromSnapshot(object value) => new();
+    public static CostManagerState FromConfig(object value) => new();
 }
